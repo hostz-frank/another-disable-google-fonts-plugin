@@ -4,7 +4,7 @@
  * Description: Disable Open Sans and other fonts fetched from Google by WordPress core.
  * Author: Frank St&uuml;rzebecher
  * Author URI: http://netzklad.de/
- * Version: 0.2
+ * Version: 0.3
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
  * General Public License as published by the Free Software Foundation; either version 2 of the License,
@@ -30,10 +30,19 @@ function google_fonts_load_disable( $styles ) {
 	$styles->add( 'twentythirteen-fonts', '' );
 	$styles->add( 'twentyfourteen-lato' , '' );
 	$styles->add( 'twentyfifteen-fonts',  '' );
+	$styles->add( 'twentysixteen-fonts',  '' );
 
-	if ( is_admin() && function_exists( 'twentyfifteen_fonts_url' ) ) {
+	if ( is_admin() ) {
+		// Remove Google fonts injected into WP editor
 		global $editor_styles;
-		unset( $editor_styles[ array_search( twentyfifteen_fonts_url(), $editor_styles ) ] );
+
+		if ( function_exists( 'twentyfifteen_fonts_url' ) ) {
+			unset( $editor_styles[ array_search( twentyfifteen_fonts_url(), $editor_styles ) ] );
+		}
+
+		if ( function_exists( 'twentysixteen_fonts_url' ) ) {
+			unset( $editor_styles[ array_search( twentysixteen_fonts_url(), $editor_styles ) ] );
+		}
 	}
 }
 
